@@ -11,6 +11,12 @@ jobs:
         uses: ./.github/actions/start-server-job-actions  
 #      - name: run docker
 #        run: docker build -t local < ./code-dot-org/docker/dockerfiles/Dockerfile
-        
+      - name: install docker
+        run: |
+          brew install docker-compose
+          export FIXUID=$(id -u)   
+          export FIXGID=$(id -g)
+          docker-compose -f ./docker/setup-compose.yml up > output.txt
+        continue-on-error: true
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3   
